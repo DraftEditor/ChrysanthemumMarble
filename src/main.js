@@ -296,8 +296,7 @@ function buildOverlayMain() {
               '#bm-contain-automation > *:not(#bm-contain-coords)', // Automation section excluding coordinates
               '#bm-input-file-template',           // Template file upload interface
               '#bm-contain-buttons-action',        // Action buttons container
-              `#${instance.outputStatusId}`,        // Status log textarea for user feedback
-              '#bm-checkbox-wrapper'
+              `#${instance.outputStatusId}`        // Status log textarea for user feedback
             ];
             
             // Apply visibility changes to all toggleable elements
@@ -592,7 +591,6 @@ setTimeout(() => {
   if (!container) return;
 
   const wrapper = document.createElement('div');
-  wrapper.id = 'bm-checkbox-wrapper';
   wrapper.style.display = 'flex';
   wrapper.style.alignItems = 'center';
   wrapper.style.gap = '8px';
