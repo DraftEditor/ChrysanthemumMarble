@@ -296,6 +296,7 @@ function buildOverlayMain() {
               '#bm-contain-automation > *:not(#bm-contain-coords)', // Automation section excluding coordinates
               '#bm-input-file-template',           // Template file upload interface
               '#bm-contain-buttons-action',        // Action buttons container
+              '#bm-checkbox-wrapper',                // Template color converter button
               `#${instance.outputStatusId}`        // Status log textarea for user feedback
             ];
             
@@ -592,6 +593,7 @@ setTimeout(() => {
 
   const wrapper = document.createElement('div');
   wrapper.style.display = 'flex';
+  wrapper.id = 'bm-checkbox-wrapper';
   wrapper.style.alignItems = 'center';
   wrapper.style.gap = '8px';
   wrapper.style.marginTop = '8px';
