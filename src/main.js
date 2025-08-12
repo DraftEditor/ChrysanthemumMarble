@@ -630,4 +630,8 @@ setTimeout(() => {
   wrapper.appendChild(cb);
   wrapper.appendChild(toggleLabel);
   wrapper.appendChild(textSpan);
+  if (isMinimized) {
+    wrapper.style.display = 'none';
+  }
+
 }, 0);
