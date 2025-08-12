@@ -7,7 +7,7 @@
     "patch": "node build/patch.js && npm run build"
   },
   "devDependencies": {
-    "esbuild": "^0.25.0",
+    "esbuild": "^0.25.8",
     "jsdoc": "^4.0.4",
     "minami": "^1.2.3",
     "terser": "^5.43.1"
