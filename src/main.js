@@ -502,12 +502,7 @@ function buildOverlayMain() {
           .addInput({'type': 'text', 'id': 'bm-input-url-template', 'placeholder': '画像URLを入力', 'style': 'width: 100%;'}).buildElement()
         .buildElement()
       .addDiv({'id': 'bm-contain-buttons-template'})
-        .addButton({'id': 'bm-button-enable', 'textContent': '有効化'}, (instance, button) => {
-          button.onclick = () => {
-            instance.apiManager?.templateManager?.setTemplatesShouldBeDrawn(true);
-            instance.handleDisplayStatus(`Enabled templates!`);
-          }
-        }).buildElement()
+
         .addButton({'id': 'bm-button-create', 'textContent': '作成'}, (instance, button) => {
           button.onclick = async () => {
             const inputFile = document.querySelector('#bm-input-file-template');
@@ -544,12 +539,6 @@ function buildOverlayMain() {
               [Number(coordTlX.value), Number(coordTlY.value), Number(coordPxX.value), Number(coordPxY.value)]
             );
             instance.handleDisplayStatus(`Drew to canvas!`);
-          }
-        }).buildElement()
-        .addButton({'id': 'bm-button-disable', 'textContent': '無効化'}, (instance, button) => {
-          button.onclick = () => {
-            instance.apiManager?.templateManager?.setTemplatesShouldBeDrawn(false);
-            instance.handleDisplayStatus(`Disabled templates!`);
           }
         }).buildElement()
       .buildElement()
@@ -595,3 +584,48 @@ function buildOverlayTabTemplate() {
     .buildElement()
   .buildOverlay();
 }
+// --- ここまでがビルダーUI作成部分 ---
+
+setTimeout(() => {
+  const container = document.querySelector('#bm-overlay');
+  if (!container) return;
+
+  const wrapper = document.createElement('div');
+  wrapper.style.display = 'flex';
+  wrapper.style.alignItems = 'center';
+  wrapper.style.gap = '8px';
+  wrapper.style.marginTop = '8px';
+
+  const cb = document.createElement('input');
+  cb.type = 'checkbox';
+  cb.id = 'bm-checkbox-enable';
+
+  const toggleLabel = document.createElement('label');
+  toggleLabel.htmlFor = 'bm-checkbox-enable';
+  toggleLabel.style.userSelect = 'none';
+
+  const textSpan = document.createElement('span');
+  textSpan.textContent = 'テンプレート表示を有効化';
+  textSpan.style.whiteSpace = 'nowrap';
+
+  // ここでinstanceを定義
+  const instance = overlayMain;
+
+  cb.addEventListener('change', () => {
+    const enabled = cb.checked;
+    console.log(`setTemplatesShouldBeDrawn called with: ${enabled}`);
+    instance.apiManager?.templateManager?.setTemplatesShouldBeDrawn(enabled);
+    instance.handleDisplayStatus(enabled ? 'Enabled templates!' : 'Disabled templates!');
+  });
+
+  const target = document.querySelector('#bm-contain-buttons-template');
+  if (target) {
+    target.appendChild(wrapper);
+  } else {
+    container.appendChild(wrapper);
+  }
+
+  wrapper.appendChild(cb);
+  wrapper.appendChild(toggleLabel);
+  wrapper.appendChild(textSpan);
+}, 0);
