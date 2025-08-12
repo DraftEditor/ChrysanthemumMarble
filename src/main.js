@@ -610,6 +610,9 @@ setTimeout(() => {
   textSpan.textContent = 'テンプレート表示を有効化';
   textSpan.style.whiteSpace = 'nowrap';
 
+  // label の中に span を入れる（CSSの + セレクタ対応）
+  toggleLabel.appendChild(textSpan);
+
   // ここでinstanceを定義
   const instance = overlayMain;
 
@@ -627,9 +630,10 @@ setTimeout(() => {
     container.appendChild(wrapper);
   }
 
+  // input と label を隣接させる
   wrapper.appendChild(cb);
   wrapper.appendChild(toggleLabel);
-  wrapper.appendChild(textSpan);
+
   if (isMinimized) {
     wrapper.style.display = 'none';
   }
