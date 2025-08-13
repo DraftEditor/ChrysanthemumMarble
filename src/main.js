@@ -296,7 +296,6 @@ function buildOverlayMain() {
               '#bm-contain-automation > *:not(#bm-contain-coords)', // Automation section excluding coordinates
               '#bm-input-file-template',           // Template file upload interface
               '#bm-contain-buttons-action',        // Action buttons container
-              '#bm-checkbox-wrapper',                // Template color converter button
               `#${instance.outputStatusId}`        // Status log textarea for user feedback
             ];
             
@@ -592,47 +591,50 @@ setTimeout(() => {
   if (!container) return;
 
   const wrapper = document.createElement('div');
-  wrapper.id = 'bm-checkbox-wrapper';
   wrapper.style.display = 'flex';
+  wrapper.id = 'bm-checkbox-wrapper';
   wrapper.style.alignItems = 'center';
   wrapper.style.gap = '8px';
   wrapper.style.marginTop = '8px';
 
-  // ラベルの中に全部入れる（forを使わない）
-  const label = document.createElement('label');
-  label.className = 'bm-toggle'; // CSS用のフック
-
   const cb = document.createElement('input');
   cb.type = 'checkbox';
-  cb.id = 'bm-checkbox-enable'; // あってもよい（コードから参照するなら残す）
+  cb.id = 'bm-checkbox-enable';
 
-  const switchSpan = document.createElement('span');
-  switchSpan.className = 'switch'; // スイッチ本体
+  const toggleLabel = document.createElement('label');
+  toggleLabel.htmlFor = 'bm-checkbox-enable';
+  toggleLabel.style.userSelect = 'none';
 
   const textSpan = document.createElement('span');
-  textSpan.className = 'text';
   textSpan.textContent = 'テンプレート表示を有効化';
   textSpan.style.whiteSpace = 'nowrap';
 
-  // ラベル内に「input → .switch → テキスト」の順で入れる
-  label.appendChild(cb);
-  label.appendChild(switchSpan);
-  label.appendChild(textSpan);
+  // label の中に span を入れる（CSSの + セレクタ対応）
+  toggleLabel.appendChild(textSpan);
 
-  // ここで instance を定義
+  // ここでinstanceを定義
   const instance = overlayMain;
+
   cb.addEventListener('change', () => {
     const enabled = cb.checked;
+    console.log(`setTemplatesShouldBeDrawn called with: ${enabled}`);
     instance.apiManager?.templateManager?.setTemplatesShouldBeDrawn(enabled);
     instance.handleDisplayStatus(enabled ? 'Enabled templates!' : 'Disabled templates!');
   });
 
   const target = document.querySelector('#bm-contain-buttons-template');
-  (target ?? container).appendChild(wrapper);
-  wrapper.appendChild(label);
+  if (target) {
+    target.appendChild(wrapper);
+  } else {
+    container.appendChild(wrapper);
+  }
 
-  // 最小化中は隠す
-  if (typeof isMinimized !== 'undefined' && isMinimized) {
+  // input と label を隣接させる
+  wrapper.appendChild(cb);
+  wrapper.appendChild(toggleLabel);
+
+  if (isMinimized) {
     wrapper.style.display = 'none';
   }
+
 }, 0);
