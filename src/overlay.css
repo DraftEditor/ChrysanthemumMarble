@@ -315,30 +315,35 @@ div:has(> #bm-input-file-template),
 #bm-overlay button:disabled {
   text-decoration: line-through;
 }
-/* チェックボックス非表示 */
-#bm-checkbox-enable {
+/* ラッパー内のトグル */
+#bm-checkbox-wrapper .bm-toggle {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+/* チェックボックス自体は隠す */
+#bm-checkbox-wrapper .bm-toggle > input[type="checkbox"] {
   opacity: 0 !important;
   width: 0 !important;
   height: 0 !important;
   position: absolute !important;
 }
 
-/* ラベルをスイッチ本体に */
-#bm-checkbox-enable + label {
+/* スイッチ本体（バー） */
+#bm-checkbox-wrapper .bm-toggle > .switch {
   position: relative !important;
-  display: inline-block !important;
   width: 50px !important;
   height: 24px !important;
   background-color: black !important;
   border: 1px solid red !important;
   border-radius: 12px !important;
-  cursor: pointer !important;
-  vertical-align: middle !important;
   transition: background-color 0.3s ease !important;
 }
 
-/* スイッチの丸いつまみ */
-#bm-checkbox-enable + label::before {
+/* つまみ */
+#bm-checkbox-wrapper .bm-toggle > .switch::before {
   content: "" !important;
   position: absolute !important;
   left: 2px !important;
@@ -350,12 +355,10 @@ div:has(> #bm-input-file-template),
   transition: transform 0.3s ease !important;
 }
 
-/* チェックON時 */
-#bm-checkbox-enable:checked + label {
-  background-color: rgba(255, 0, 0, 0.5) !important; 
+/* チェックONで色/位置 */
+#bm-checkbox-wrapper .bm-toggle > input[type="checkbox"]:checked + .switch {
+  background-color: rgba(255, 0, 0, 0.5) !important;
 }
-
-/* つまみを右にスライド */
-#bm-checkbox-enable:checked + label::before {
+#bm-checkbox-wrapper .bm-toggle > input[type="checkbox"]:checked + .switch::before {
   transform: translateX(26px) !important;
 }

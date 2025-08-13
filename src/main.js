@@ -592,50 +592,47 @@ setTimeout(() => {
   if (!container) return;
 
   const wrapper = document.createElement('div');
-  wrapper.style.display = 'flex';
   wrapper.id = 'bm-checkbox-wrapper';
+  wrapper.style.display = 'flex';
   wrapper.style.alignItems = 'center';
   wrapper.style.gap = '8px';
   wrapper.style.marginTop = '8px';
 
+  // ラベルの中に全部入れる（forを使わない）
+  const label = document.createElement('label');
+  label.className = 'bm-toggle'; // CSS用のフック
+
   const cb = document.createElement('input');
   cb.type = 'checkbox';
-  cb.id = 'bm-checkbox-enable';
+  cb.id = 'bm-checkbox-enable'; // あってもよい（コードから参照するなら残す）
 
-  const toggleLabel = document.createElement('label');
-  toggleLabel.htmlFor = 'bm-checkbox-enable';
-  toggleLabel.style.userSelect = 'none';
+  const switchSpan = document.createElement('span');
+  switchSpan.className = 'switch'; // スイッチ本体
 
   const textSpan = document.createElement('span');
+  textSpan.className = 'text';
   textSpan.textContent = 'テンプレート表示を有効化';
   textSpan.style.whiteSpace = 'nowrap';
 
-  // label の中に span を入れる（CSSの + セレクタ対応）
-  toggleLabel.appendChild(textSpan);
+  // ラベル内に「input → .switch → テキスト」の順で入れる
+  label.appendChild(cb);
+  label.appendChild(switchSpan);
+  label.appendChild(textSpan);
 
-  // ここでinstanceを定義
+  // ここで instance を定義
   const instance = overlayMain;
-
   cb.addEventListener('change', () => {
     const enabled = cb.checked;
-    console.log(`setTemplatesShouldBeDrawn called with: ${enabled}`);
     instance.apiManager?.templateManager?.setTemplatesShouldBeDrawn(enabled);
     instance.handleDisplayStatus(enabled ? 'Enabled templates!' : 'Disabled templates!');
   });
 
   const target = document.querySelector('#bm-contain-buttons-template');
-  if (target) {
-    target.appendChild(wrapper);
-  } else {
-    container.appendChild(wrapper);
-  }
+  (target ?? container).appendChild(wrapper);
+  wrapper.appendChild(label);
 
-  // input と label を隣接させる
-  wrapper.appendChild(cb);
-  wrapper.appendChild(toggleLabel);
-
-  if (isMinimized) {
+  // 最小化中は隠す
+  if (typeof isMinimized !== 'undefined' && isMinimized) {
     wrapper.style.display = 'none';
   }
-
 }, 0);
