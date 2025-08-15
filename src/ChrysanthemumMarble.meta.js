@@ -16,7 +16,7 @@
 // @grant        GM_addStyle
 // @grant        GM.setValue
 // @grant        GM_getValue
-// @resource     CSS-BM-File https://raw.githubusercontent.com/gori-GORILLA-gori/ChrysanthemumMarble/refs/heads/main/dist/ChrysanthemumMarble.user.css
+// @resource     CSS-BM-File https://raw.githubusercontent.com/DraftEditor/ChrysanthemumMarble/refs/heads/main/dist/ChrysanthemumMarble.user.css
 // ==/UserScript==
 
 // Wplace  --> https://wplace.live
